@@ -22,11 +22,15 @@
         v-model="newTodo" 
         @keyup.enter="addTodo" 
         type="text" 
+        :class="{'border-red-500': showError}" 
         class="w-full p-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500" 
         placeholder="Add a new task..."
       />
       <button @click="addTodo" class="bg-violet-500 text-white px-6 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500">Add</button>
     </div>
+
+    <!-- Error Message -->
+    <p v-if="showError" class="text-red-500 text-sm mb-4">Please enter a task before adding.</p>
 
     <!-- In Progress Section -->
     <section v-if="assignments.some(a => !a.completed)" class="mt-6">
@@ -73,6 +77,7 @@
       data() {
         return {
           newTodo: '',
+          showError: false, // To control the error message and red border
           assignments: [
             { id: 1, name: 'Finish Project', completed: false },
             { id: 2, name: 'Read Chapter 4', completed: false },
@@ -89,6 +94,9 @@
               completed: false
             });
             this.newTodo = ''; 
+            this.showError = false; // Hide error after adding
+          } else {
+            this.showError = true; // Show error if input is empty
           }
         },
         removeAssignment(id) {
