@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Todo List with Vue & Tailwind</title>
+  <!-- Vue CDN -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen bg-slate-100/60 flex items-center justify-center">
+
+  <div id="app" class="w-full max-w-lg p-6 bg-white rounded-lg shadow-xl">
+    
+    <!-- Todo Header -->
+    <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Todo List</h1>
+
+    <!-- Add Todo Section -->
+    <div class="mt-8 flex space-x-4 mb-6">
+      <input 
+        v-model="newTodo" 
+        @keyup.enter="addTodo" 
+        type="text" 
+        class="w-full p-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-violet-500" 
+        placeholder="Add a new task..."
+      />
+      <button @click="addTodo" class="bg-violet-500 text-white px-6 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500">Add</button>
+    </div>
+
+    <!-- In Progress Section -->
+    <section v-if="assignments.some(a => !a.completed)" class="mt-6">
+      <h2 class="font-bold text-2xl text-gray-800 mb-4">In Progress</h2>
+      <ul class="space-y-4">
+        <li v-for="assignment in assignments.filter(a => !a.completed)" :key="assignment.id" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow hover:bg-gray-100 transition ease-in-out">
+          <div class="flex items-center space-x-3">
+            <input 
+              type="checkbox" 
+              v-model="assignment.completed" 
+              @change="moveToCompleted(assignment)" 
+              class="w-5 h-5 text-violet-500 border-gray-300 rounded"
+            >
+            <span class="text-gray-700">{{ assignment.name }}</span>
+          </div>
+          <button @click="removeAssignment(assignment.id)" class="bg-rose-100/60 py-1 px-2 rounded-md hover:bg-rose-500 hover:text-white text-rose-500 hover:text-rose-700 transition duration-200">Delete</button>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Completed Section -->
+    <section v-if="assignments.some(a => a.completed)" class="mt-8">
+      <h2 class="font-bold text-2xl text-gray-800 mb-4">Completed</h2>
+      <ul class="space-y-4">
+        <li v-for="assignment in assignments.filter(a => a.completed)" :key="assignment.id" class="flex items-center justify-between p-4 bg-gray-50 rounded-lg shadow hover:bg-gray-100 transition ease-in-out">
+          <div class="flex items-center space-x-3">
+            <input 
+              type="checkbox" 
+              v-model="assignment.completed" 
+              @change="moveToInProgress(assignment)" 
+              class="w-5 h-5 text-violet-500 border-gray-300 rounded" 
+              checked
+            >
+            <span class="text-gray-400 line-through">{{ assignment.name }}</span>
+          </div>
+          <button @click="removeAssignment(assignment.id)" class="text-rose-500 hover:text-rose-700 transition duration-200">Delete</button>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <script>
+    let app = {
+      data() {
+        return {
+          newTodo: '',
+          assignments: [
+            { id: 1, name: 'Finish Project', completed: false },
+            { id: 2, name: 'Read Chapter 4', completed: false },
+            { id: 3, name: 'Turn in homework', completed: false }
+          ]
+        };
+      },
+      methods: {
+        addTodo() {
+          if (this.newTodo.trim()) {
+            this.assignments.push({
+              id: Date.now(),
+              name: this.newTodo,
+              completed: false
+            });
+            this.newTodo = ''; 
+          }
+        },
+        removeAssignment(id) {
+          this.assignments = this.assignments.filter(assignment => assignment.id !== id);
+        },
+        moveToCompleted(assignment) {
+          assignment.completed = true; 
+        },
+        moveToInProgress(assignment) {
+          assignment.completed = false; 
+        }
+      }
+    }
+
+    Vue.createApp(app).mount('#app');
+  </script>
+</body>
+</html>
