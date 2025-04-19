@@ -10,16 +10,28 @@
 <body>
 
     <div id="app">
-        {{ greeting }}
+        <p>
+            <input type="text" v-model="greeting">
+        </p>
+
+        <p>
+            {{ greeting }} {{ (greeting.length) }}
+        </p>
     </div>
 
     <script>
         Vue.createApp({
             data () {
                 return {
-                    greeting: 'Hello Vue!'
+                    greeting: 'What\'s up?'
                 }
-            }
+            },
+
+            mounted() {
+                setTimeout(() => {
+                    this.greeting = 'changed!';
+                }, 3000);
+            },
         }).mount('#app');
     </script>
 </body>
