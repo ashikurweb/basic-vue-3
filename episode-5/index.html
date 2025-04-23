@@ -9,10 +9,10 @@
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="grid place-items-center h-screen">
 
     <div id="app">
-        <app-button />
+        <app-button>Click Me</app-button>
     </div>
 
     <script>
@@ -20,12 +20,16 @@
             components: {
                 'app-button': {
                     template: `
-                        <div class="grid place-items-center h-screen">
-                            <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                                Hi There
-                            </button>
-                        </div>
+                        <button class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed" :disabled="processing">
+                            <slot />
+                        </button>
                     `,
+
+                    data () {
+                        return {
+                            processing: true
+                        }
+                    }
                 }
             }
         };
