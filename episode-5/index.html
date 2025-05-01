@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Episode 4: Your First Custom Vue Component</title>
+    <title>Episode 5: Your First Custom Vue Component</title>
     <!-- Vue CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <!-- Tailwind CDN -->
@@ -12,25 +12,15 @@
 <body class="grid place-items-center h-screen">
 
     <div id="app">
-        <app-button>Click Me</app-button>
+        <app-button type="muted">Click Me</app-button>
     </div>
 
-    <script>
+    <script type="module">
+        import AppButton from './js/components/AppButton.js'
+
         const app = {
             components: {
-                'app-button': {
-                    template: `
-                        <button class="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded disabled:cursor-not-allowed" :disabled="processing">
-                            <slot />
-                        </button>
-                    `,
-
-                    data () {
-                        return {
-                            processing: true
-                        }
-                    }
-                }
+                'app-button': AppButton
             }
         };
 
