@@ -9,14 +9,42 @@
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<style>
+    @keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.is-loading {
+  color: transparent;
+}
+ 
+.is-loading::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  margin-left: -12px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  border-top-color: #000;
+  animation: spinner 600ms linear infinite;
+}
+
+</style>
 <body class="grid place-items-center h-screen">
 
     <div id="app">
-        <app-button type="muted">Click Me</app-button>
+        <app-button :processing="true" type="success">Click Me</app-button>
     </div>
 
     <script type="module">
-        import AppButton from './js/components/AppButton.js'
+        import AppButton from './js/components/AppButton.js';
 
         const app = {
             components: {
