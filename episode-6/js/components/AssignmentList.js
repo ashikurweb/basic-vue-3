@@ -1,14 +1,34 @@
 export default {
-    name: "AssignmentList",
-    props: {
-      assignments: { type: Array, required: true },
-      title:       { type: String, required: true }
-    },
-    emits: ["remove","toggle"],
-    template: `
+  name: "AssignmentList",
+  props: {
+    assignments: { type: Array, required: true },
+    title: { type: String, required: true },
+  },
+  emits: ["remove", "toggle"],
+
+  computed: {
+    tags () {
+      return [
+        'Bangla',
+        'English',
+        'Math',
+        'Physics',
+        'Chemistry',
+        'Biology'
+      ]
+    }
+  },
+  template: `
       <section v-if="assignments.length" class="mt-6">
         <h2 class="font-bold text-2xl text-gray-800 mb-4">{{ title }}</h2>
-        <ul class="space-y-4">
+
+        <div class="flex gap-2 items-center">
+            <button v-for="tag in tags" class="border rounded-full px-4 py-1 text-xs text-gray-400 hover:bg-gray-100 transition">
+              {{ tag }}
+            </button>
+        </div>
+
+        <ul class="space-y-4 mt-4">
           <li
             v-for="item in assignments"
             :key="item.id"
@@ -32,6 +52,5 @@ export default {
           </li>
         </ul>
       </section>
-    `
-  };
-  
+    `,
+};
