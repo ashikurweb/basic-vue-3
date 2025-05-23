@@ -8,6 +8,7 @@ export default {
       position : "<h1>Junior Software Engineer</h1>",
       button   : `<a href="#" onclick="alert('You have clicked!')" class="bg-blue-500 px-4 py-2 rounded text-white">Button</a>`,
       headingId: 'heading',
+      textColor: 'purple'
     }
   }
 };
@@ -21,10 +22,13 @@ export default {
       <p v-html="position" class="mt-2"></p>
       <p v-html="button" class="mt-2"></p>
       <h1 v-bind:id="headingId" class="mt-2">My Heading</h1>
+      <h1 :class="textColor">My Heading</h1>
     </div>
   </div>
 </template>
 
 <style scoped>
-
+  .purple {
+    color: #9F7AEA;
+  }
 </style>
